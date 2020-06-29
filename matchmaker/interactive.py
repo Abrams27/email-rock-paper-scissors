@@ -1,6 +1,7 @@
 # żeby interaktywnie potestować:
 # docker exec -it <matcher container-id> python
 # exec(open("interactive.py").read())
+# albo ./interact.sh
 
 from kafka import KafkaConsumer, KafkaProducer
 import json
