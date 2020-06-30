@@ -43,6 +43,14 @@ for msg1, msg2 in pairwise(consumer):
 
     eprint("sending pair", paired)
     producer.send('matchmaking_pairs', paired)
+
+    # swap and resend
+    paired = {
+        "player1": msg2.value["player"],
+        "player2": msg1.value["player"]
+    }
+    producer.send('matchmaking_pairs', paired)
+
     producer.flush()
     consumer.commit()
 
