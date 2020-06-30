@@ -5,8 +5,9 @@ import lombok.Data;
 @Data
 public class GameResultMessage {
 
+  private String player;
   private String opponent;
-  private String opponentsHandSign;
+  private String opponentHandSign;
   private String result;
 
 }

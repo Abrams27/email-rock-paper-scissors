@@ -13,9 +13,6 @@ import pl.uw.mim.jnp.zadanie2.camel.utils.ObjectJsonMapper;
 @AllArgsConstructor
 public class CamelMatchmakingResultProcessor implements Processor {
 
-  private final static String RECEIVER_HEADER_KEY = "To";
-  private final static String SENDER_HEADER_KEY = "From";
-  private final static String SUBJECT_HEADER_KEY = "Subject";
   private final static String SUBJECT_VALUE = "Rock paper scissors - Opponent found";
 
   private CamelMailProperties camelMailProperties;
@@ -48,28 +45,16 @@ public class CamelMatchmakingResultProcessor implements Processor {
 
   private void setReceiver(Message message, MatchmakingResultMessage matchmakingResultMessage) {
     String receiverMail = matchmakingResultMessage.getPlayer1();
-    setReceiverHeader(message, receiverMail);
-  }
-
-  private void setReceiverHeader(Message message, String receiverMail) {
-    message.setHeader(RECEIVER_HEADER_KEY, receiverMail);
+    CamelMailSenderUtils.setReceiverHeader(message, receiverMail);
   }
 
   private void setSender(Message message) {
     String senderMail = camelMailProperties.getUsername();
-    setSenderHeader(message, senderMail);
-  }
-
-  private void setSenderHeader(Message message, String senderMail) {
-    message.setHeader(SENDER_HEADER_KEY, senderMail);
+    CamelMailSenderUtils.setSenderHeader(message, senderMail);
   }
 
   private void setSubject(Message message) {
-    setSubjectHeader(message, SUBJECT_VALUE);
-  }
-
-  private void setSubjectHeader(Message message, String subject) {
-    message.setHeader(SUBJECT_HEADER_KEY, subject);
+    CamelMailSenderUtils.setSubjectHeader(message, SUBJECT_VALUE);
   }
 
 }

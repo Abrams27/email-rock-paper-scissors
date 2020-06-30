@@ -28,6 +28,12 @@ public class CamelKafkaRoute {
     return buildKafkaRouteWithTopic(matchmakingResultTopic);
   }
 
+  public String gameResultRoute() {
+    String gameResultTopic = camelKafkaProperties.getTopics().getResult();
+
+    return buildKafkaRouteWithTopic(gameResultTopic);
+  }
+
   private String buildKafkaRouteWithTopic(String topic) {
     String url = camelKafkaProperties.getUrl();
 
