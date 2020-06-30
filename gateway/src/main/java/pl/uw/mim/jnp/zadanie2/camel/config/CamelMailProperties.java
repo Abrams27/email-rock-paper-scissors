@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "camel.mail")
 public class CamelMailProperties {
 
-  private String host;
   private String username;
   private String password;
   private Integer delay;
+  private CamelMailHostsProperties host;
 
 }

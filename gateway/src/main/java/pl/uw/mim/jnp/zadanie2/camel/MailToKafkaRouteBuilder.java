@@ -21,11 +21,11 @@ public class MailToKafkaRouteBuilder extends RouteBuilder {
 
   @Override
   public void configure() {
-    String camelMailRouteString = camelMailRoute.route();
+    String camelMailReceiveRouteString = camelMailRoute.receiveRoute();
     String matchmakingCamelKafkaRouteString = camelKafkaRoute.matchmakingRoute();
     String gameCamelKafkaRouteString = camelKafkaRoute.gameRoute();
 
-    from(camelMailRouteString)
+    from(camelMailReceiveRouteString)
         .filter()
         .method(CamelGameStartMailFilter.class, CamelGameStartMailFilter.APPLY_FUNCTION_NAME)
           .process(camelGameStartMailProcessor)
