@@ -5,6 +5,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 import pl.uw.mim.jnp.zadanie2.camel.filters.CamelGameMailFilter;
 import pl.uw.mim.jnp.zadanie2.camel.filters.CamelGameStartMailFilter;
+import pl.uw.mim.jnp.zadanie2.camel.processors.CamelGameStartMailProcessor;
 import pl.uw.mim.jnp.zadanie2.camel.routes.CamelKafkaRoute;
 import pl.uw.mim.jnp.zadanie2.camel.routes.CamelMailRoute;
 
@@ -14,6 +15,7 @@ public class MailToKafkaRouteBuilder extends RouteBuilder {
 
   private CamelMailRoute camelMailRoute;
   private CamelKafkaRoute camelKafkaRoute;
+  private CamelGameStartMailProcessor camelGameStartMailProcessor;
 
   @Override
   public void configure() {
@@ -24,6 +26,7 @@ public class MailToKafkaRouteBuilder extends RouteBuilder {
     from(camelMailRouteString)
         .filter()
         .method(CamelGameStartMailFilter.class, CamelGameStartMailFilter.APPLY_FUNCTION_NAME)
+          .process(camelGameStartMailProcessor)
           .to(matchmakingCamelKafkaRouteString)
         .end()
         .filter()
