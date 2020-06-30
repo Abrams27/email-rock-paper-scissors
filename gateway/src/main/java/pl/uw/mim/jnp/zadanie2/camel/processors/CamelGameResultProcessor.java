@@ -49,7 +49,7 @@ public class CamelGameResultProcessor implements Processor {
     String result = gameResultMessage.getResult();
 
     return String
-        .format("You played against: %s. \n Opponent showed: %s\n%s",
+        .format("You played against: %s. \n Opponent showed: %s.\n%s",
             opponentEmail, longOpponentHandSign, result);
   }
 
