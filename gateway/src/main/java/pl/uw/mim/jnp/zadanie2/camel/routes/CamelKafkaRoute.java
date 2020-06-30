@@ -31,4 +31,5 @@ public class CamelKafkaRoute {
   private String buildKafkaRouteWithTopicAndUrl(String topic, String url) {
     return String.format("kafka:%s?brokers=%s", topic, url);
   }
+
 }
