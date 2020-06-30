@@ -10,7 +10,7 @@ json_deserializer = lambda m : json.loads(m) if m is not None else None
 json_serializer = lambda m : json.dumps(m).encode('utf-8')
 
 pairs_consumer = KafkaConsumer(
-    'matchmaking_pairs',
+    'jnp-pairs',
     bootstrap_servers = 'kafka',
     value_deserializer = json_deserializer,
     key_deserializer = json_deserializer,
@@ -31,5 +31,5 @@ def receive_matchmaking_pair():
 
 def send_matchmaking_request(email):
     data = {"player": email}
-    producer.send('matchmaking_requests', data)
+    producer.send('jnp-matchmaking', data)
 

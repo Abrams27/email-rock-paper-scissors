@@ -16,7 +16,7 @@ json_deserializer = lambda m : json.loads(m) if m is not None else None
 json_serializer = lambda m : json.dumps(m).encode('utf-8')
 
 consumer = KafkaConsumer(
-    'matchmaking_requests',
+    'jnp-matchmaking',
     bootstrap_servers = 'kafka',
     value_deserializer = json_deserializer,
     key_deserializer = json_deserializer,
@@ -42,14 +42,14 @@ for msg1, msg2 in pairwise(consumer):
         continue
 
     eprint("sending pair", paired)
-    producer.send('matchmaking_pairs', paired)
+    producer.send('jnp-pairs', paired)
 
     # swap and resend
     paired = {
         "player1": msg2.value["player"],
         "player2": msg1.value["player"]
     }
-    producer.send('matchmaking_pairs', paired)
+    producer.send('jnp-pairs', paired)
 
     producer.flush()
     consumer.commit()

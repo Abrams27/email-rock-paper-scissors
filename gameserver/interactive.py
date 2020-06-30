@@ -10,7 +10,7 @@ json_deserializer = lambda m : json.loads(m) if m is not None else None
 json_serializer = lambda m : json.dumps(m).encode('utf-8')
 
 result_consumer = KafkaConsumer(
-    'results',
+    'jnp-game-result',
     bootstrap_servers = 'kafka',
     value_deserializer = json_deserializer,
     key_deserializer = json_deserializer,
@@ -31,6 +31,6 @@ def receive_result():
 
 def send_handsign(email, handsign):
     data = {"player": email, "handSign": handsign}
-    producer.send('handsigns', data)
+    producer.send('jnp-game', data)
     producer.flush()
 

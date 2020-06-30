@@ -11,7 +11,7 @@ def eprint(*args, **kwargs):
 json_deserializer = lambda m : json.loads(m) if m is not None else None
 json_serializer = lambda m : json.dumps(m).encode('utf-8')
 
-topics = ['matchmaking_pairs', 'handsigns']
+topics = ['jnp-pairs', 'jnp-game']
 consumer = KafkaConsumer(
     *topics,
     bootstrap_servers = 'kafka',
@@ -88,7 +88,7 @@ class Game:
                 msg["result"] = "You lost"
 
             eprint("sending result", msg)
-            producer.send('results', msg)
+            producer.send('jnp-game-result', msg)
         producer.flush()
 
     def handle_player_handsign(self, email, handsign):
@@ -108,7 +108,7 @@ class Game:
 game = Game()
 
 for msg in consumer:
-    if msg.topic == 'matchmaking_pairs':
+    if msg.topic == 'jnp-pairs':
         eprint("handling match start for", msg.value)
 
         email1, email2 = None, None
@@ -120,7 +120,7 @@ for msg in consumer:
 
         game.handle_match_start(email1, email2)
 
-    elif msg.topic == 'handsigns':
+    elif msg.topic == 'jnp-game':
         eprint("handling handsign", msg.value)
 
         email, handsign = None, None
