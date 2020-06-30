@@ -32,3 +32,11 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - kafka
+
+  gameserver:
+    image: gameserver
+    build:
+      context: gameserver
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka
