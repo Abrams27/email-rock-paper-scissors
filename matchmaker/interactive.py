@@ -30,5 +30,6 @@ def receive_matchmaking_pair():
     return ret
 
 def send_matchmaking_request(email):
-    producer.send('matchmaking_requests', email)
+    data = {"player": email}
+    producer.send('matchmaking_requests', data)
 

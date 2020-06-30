@@ -30,8 +30,18 @@ producer = KafkaProducer(
 )
 
 for msg1, msg2 in pairwise(consumer):
-    paired = [msg1.value, msg2.value]
-    eprint("sending pair", msg1.value, msg2.value)
+    paired = None
+
+    try:
+        paired = {
+            "player1": msg1.value["player"],
+            "player2": msg2.value["player"]
+        }
+    except (AttributeError, TypeError):
+        eprint("invalid messages", msg1.value, msg2.value)
+        continue
+
+    eprint("sending pair", paired)
     producer.send('matchmaking_pairs', paired)
     producer.flush()
     consumer.commit()
