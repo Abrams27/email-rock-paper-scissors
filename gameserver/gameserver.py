@@ -60,17 +60,78 @@ class Game:
         self.add_players(email1, email2)
         self.set_opponents(email1, email2)
 
-    def handle_handsign(handsign):
-        pass
+    def rps(self, x, y):
+        return [0, -1, 1]['RPS'.index(x) - 'RPS'.index(y)]
+
+    def choose_winner(self, player):
+        result = self.rps(player.handsign, player.opponent.handsign)
+        if result == -1:
+            return player
+        elif result == 0:
+            return None
+        else:
+            return player.opponent
+
+    def resolve_match(self, players, winner):
+        for player in players:
+            msg = {
+                "player": player.email,
+                "opponent": player.opponent.email,
+                "opponentHandSign": player.opponent.handsign,
+            }
+
+            if winner is None:
+                msg["result"] = "Tie"
+            elif winner == player:
+                msg["result"] = "You won"
+            else:
+                msg["result"] = "You lost"
+
+            eprint("sending result", msg)
+            producer.send('results', msg)
+        producer.flush()
+
+    def handle_player_handsign(self, email, handsign):
+        p = self.find_player(email)
+        if p is None or p.opponent is None:
+            eprint("could not find player or his opponent", email)
+            return
+
+        p.handsign = handsign
+
+        if p.opponent.handsign is not None:
+            winner = self.choose_winner(p)
+            self.resolve_match([p, p.opponent], winner)
+            self.players.remove(p)
+            self.players.remove(p.opponent)
 
 game = Game()
 
 for msg in consumer:
     if msg.topic == 'matchmaking_pairs':
-        eprint("handling match start for", *msg.value)
-        game.handle_match_start(*msg.value)
+        eprint("handling match start for", msg.value)
+
+        email1, email2 = None, None
+        try:
+            email1, email2 = msg.value["player1"], msg.value["player2"]
+        except (AttributeError, TypeError):
+            eprint("invalid message", msg.value)
+            continue
+
+        game.handle_match_start(email1, email2)
+
     elif msg.topic == 'handsigns':
         eprint("handling handsign", msg.value)
-        game.handle_handsign(msg.value)
+
+        email, handsign = None, None
+        try:
+            email = msg.value["player"]
+            handsign = msg.value["handSign"]
+        except (AttributeError, TypeError):
+            eprint("invalid message", msg.value)
+            continue
+
+        game.handle_player_handsign(email, handsign)
+
     consumer.commit()
 
