@@ -41,4 +41,5 @@ public class CamelGameStartMailProcessor implements Processor {
         .player(email)
         .build();
   }
+
 }

@@ -13,8 +13,8 @@ public class CamelMailRoute {
 
   private CamelMailProperties camelMailProperties;
 
-  public String route() {
-    String host = camelMailProperties.getHost();
+  public String receiveRoute() {
+    String host = camelMailProperties.getHost().getReceive();
     String encodedUsername = encodeURL(camelMailProperties.getUsername());
     String encodedPassword = encodeURL(camelMailProperties.getPassword());
     int delay = camelMailProperties.getDelay();
@@ -24,6 +24,15 @@ public class CamelMailRoute {
         host, encodedUsername, encodedPassword, delay);
   }
 
+  public String sendRoute() {
+    String host = camelMailProperties.getHost().getSend();
+    String encodedUsername = encodeURL(camelMailProperties.getUsername());
+    String encodedPassword = encodeURL(camelMailProperties.getPassword());
+
+    return String.format(
+        "smtp://%s?username=%s&password=%s",
+        host, encodedUsername, encodedPassword);
+  }
 
   @SneakyThrows
   private String encodeURL(String string) {

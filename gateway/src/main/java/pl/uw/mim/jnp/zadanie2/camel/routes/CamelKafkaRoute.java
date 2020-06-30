@@ -22,6 +22,18 @@ public class CamelKafkaRoute {
     return buildKafkaRouteWithTopic(gameTopic);
   }
 
+  public String matchmakingResultRoute() {
+    String matchmakingResultTopic = camelKafkaProperties.getTopics().getPairs();
+
+    return buildKafkaRouteWithTopic(matchmakingResultTopic);
+  }
+
+  public String gameResultRoute() {
+    String gameResultTopic = camelKafkaProperties.getTopics().getResult();
+
+    return buildKafkaRouteWithTopic(gameResultTopic);
+  }
+
   private String buildKafkaRouteWithTopic(String topic) {
     String url = camelKafkaProperties.getUrl();
 
@@ -31,4 +43,5 @@ public class CamelKafkaRoute {
   private String buildKafkaRouteWithTopicAndUrl(String topic, String url) {
     return String.format("kafka:%s?brokers=%s", topic, url);
   }
+
 }

@@ -6,10 +6,16 @@ public class CamelGameMailFilter {
 
   public final static String APPLY_FUNCTION_NAME = "apply";
 
-  private final static String GAME_SUBJECT = "play";
+  private final static String GAME_SUBJECT_EN = "play";
+  private final static String GAME_SUBJECT_PL = "graj";
 
   public boolean apply(@Header("Subject") String subject) {
-    return subject.toLowerCase().equals(GAME_SUBJECT);
+    return isSubjectEqualsto(subject, GAME_SUBJECT_EN)
+        || isSubjectEqualsto(subject, GAME_SUBJECT_PL);
+  }
+
+  private boolean isSubjectEqualsto(String subject, String pattern) {
+    return subject.toLowerCase().equals(pattern);
   }
 
 }

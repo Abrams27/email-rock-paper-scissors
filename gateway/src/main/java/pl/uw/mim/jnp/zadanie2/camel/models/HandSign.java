@@ -34,4 +34,5 @@ public enum HandSign {
   private static String mapPolishToEnglishValue(String value) {
     return POLISH_TO_ENGLISH_MAP.getOrDefault(value.toLowerCase(), value.toLowerCase());
   }
+
 }
