@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 public enum HandSign {
-  PAPER("paper"),
-  ROCK("rock"),
-  SCISSORS("scissors");
+  P("paper"),
+  R("rock"),
+  S("scissors");
 
   private final static Map<String, String> POLISH_TO_ENGLISH_MAP = Map.of(
       "papier", "paper",
