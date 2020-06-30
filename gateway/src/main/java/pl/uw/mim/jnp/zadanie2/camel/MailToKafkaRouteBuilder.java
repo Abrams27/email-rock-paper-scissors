@@ -19,7 +19,7 @@ public class MailToKafkaRouteBuilder extends RouteBuilder {
   public void configure() {
     String camelMailRouteString = camelMailRoute.route();
     String matchmakingCamelKafkaRouteString = camelKafkaRoute.matchmakingRoute();
-    String gamecamelKafkaRouteString = camelKafkaRoute.gameRoute();
+    String gameCamelKafkaRouteString = camelKafkaRoute.gameRoute();
 
     from(camelMailRouteString)
         .filter()
@@ -28,7 +28,7 @@ public class MailToKafkaRouteBuilder extends RouteBuilder {
         .end()
         .filter()
         .method(CamelGameMailFilter.class, CamelGameMailFilter.APPLY_FUNCTION_NAME)
-          .to(gamecamelKafkaRouteString)
+          .to(gameCamelKafkaRouteString)
         .end();
   }
 

@@ -1,14 +1,15 @@
 package pl.uw.mim.jnp.zadanie2.camel.filters;
 
-import org.apache.camel.Body;
+import org.apache.camel.Header;
 
 public class CamelGameMailFilter {
 
   public final static String APPLY_FUNCTION_NAME = "apply";
 
-  private final static String GAME_MESSAGE = "PLAY";
+  private final static String GAME_SUBJECT = "play";
 
-  public boolean apply(@Body String body) {
-    return body.startsWith(GAME_MESSAGE);
+  public boolean apply(@Header("Subject") String subject) {
+    return subject.toLowerCase().equals(GAME_SUBJECT);
   }
+
 }
