@@ -1,10 +1,12 @@
 package pl.uw.mim.jnp.zadanie2.camel.processors;
 
+import javax.mail.internet.MimeUtility;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.apache.camel.Message;
 
 @UtilityClass
-public class CamelMailSenderUtils {
+public class CamelMailUtils {
 
   private final static String RECEIVER_HEADER_KEY = "To";
   private final static String SENDER_HEADER_KEY = "From";
@@ -22,4 +24,12 @@ public class CamelMailSenderUtils {
     message.setHeader(SUBJECT_HEADER_KEY, subject);
   }
 
+  @SneakyThrows
+  public String getSenderMail(Message message) {
+    String messageString = message
+        .getHeader(SENDER_HEADER_KEY)
+        .toString();
+
+    return MimeUtility.decodeText(messageString);
+  }
 }

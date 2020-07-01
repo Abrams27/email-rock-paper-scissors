@@ -45,16 +45,16 @@ public class CamelMatchmakingResultProcessor implements Processor {
 
   private void setReceiver(Message message, MatchmakingResultMessage matchmakingResultMessage) {
     String receiverMail = matchmakingResultMessage.getPlayer1();
-    CamelMailSenderUtils.setReceiverHeader(message, receiverMail);
+    CamelMailUtils.setReceiverHeader(message, receiverMail);
   }
 
   private void setSender(Message message) {
     String senderMail = camelMailProperties.getUsername();
-    CamelMailSenderUtils.setSenderHeader(message, senderMail);
+    CamelMailUtils.setSenderHeader(message, senderMail);
   }
 
   private void setSubject(Message message) {
-    CamelMailSenderUtils.setSubjectHeader(message, SUBJECT_VALUE);
+    CamelMailUtils.setSubjectHeader(message, SUBJECT_VALUE);
   }
 
 }
